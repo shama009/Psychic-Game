@@ -20,26 +20,38 @@ document.onkeyup = function (event) {
     }
 
     // compare user and computer guesses
-    if ((getRandomLetter != userGuessLower) && (guessesLeft <= 1)) {
-        loses++;
-        guessesLeft = 9;
-        userGuessesDisplay = "";
-        getRandomLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
-    }
-    else if ((getRandomLetter == userGuessLower) && (guessesLeft > 0)) {
-        wins++;
-        guessesLeft = 9;
-        userGuessesDisplay = "";
-        getRandomLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
+    if (alphabet.indexOf(userGuessLower) != -1) { // user input validation. //guesses are decremented only when alphabet is typed. User does not loose chances for invalid input.
+        if ((getRandomLetter != userGuessLower) && (guessesLeft <= 1)) {
+            loses++;
+            guessesLeft = 9;
+            userGuessesDisplay = "";
+            getRandomLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
+            displayScores();
+        }
+        else if ((getRandomLetter == userGuessLower) && (guessesLeft > 0)) {
+            wins++;
+            guessesLeft = 9;
+            userGuessesDisplay = "";
+            getRandomLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
+            displayScores();
+        }
+        else {
+            guessesLeft--;
+            displayScores();
+        }
     }
     else {
-        guessesLeft--;
+        alert("Please enter only alphabets!");
+        displayScores();
     }
+};
 
-    // Display updated scores
+
+// Display updated scores
+function displayScores() {
     document.getElementById("wins").innerHTML = wins;
     document.getElementById("losses").innerHTML = loses;
     document.getElementById("guessesLeft").innerHTML = guessesLeft;
     document.getElementById("guesses").innerHTML = userGuessesDisplay;
-    document.getElementById("cg").innerHTML = getRandomLetter;
+    // document.getElementById("cg").innerHTML = getRandomLetter;
 }
